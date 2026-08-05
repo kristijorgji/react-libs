@@ -1,0 +1,10 @@
+.idea/
+
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.turbo/
+.DS_Store
+*.tgz
+.npmrc
