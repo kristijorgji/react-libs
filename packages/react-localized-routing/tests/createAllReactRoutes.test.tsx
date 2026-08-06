@@ -48,6 +48,10 @@ describe('createAllReactRoutes', () => {
             TEST_ROUTES
         );
 
+        // Should create:
+        // - 2 routes for default locale without prefix (SETTINGS, HOME)
+        // - 0 routes for default locale with prefix (because useLocaleInPath is false)
+        // - 2 for 'de' locale without prefix
         expect(routes).toHaveLength(4);
         expect(mockCreateLocalizedRoute).toHaveBeenCalledTimes(4);
         expect(mockCreateLocalizedRoute.mock.calls).toEqual([
@@ -72,6 +76,10 @@ describe('createAllReactRoutes', () => {
             TEST_ROUTES
         );
 
+        // Should create: 6
+        // - 2 routes for default locale without prefix (SETTINGS, HOME)
+        // - 2 routes for default locale with prefix (to allow switching between with and without prefix based on usePrefixForDefaultLocale in the other hooks)
+        // - 2 for 'de' locale with prefix
         expect(routes).toHaveLength(6);
         expect(mockCreateLocalizedRoute).toHaveBeenCalledTimes(6);
         expect(mockCreateLocalizedRoute.mock.calls).toEqual([
