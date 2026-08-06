@@ -21,6 +21,12 @@ export function createAllReactRoutes<
 ): ReactElement[] {
     const reactRoutes: ReactElement[] = [];
 
+    /**
+     * Add default locale routes without a prefix.
+     * This ensures that `useProperDefaultLocalePath` can properly redirect
+     * from prefixed paths like `/en/settings` to `/settings` and the other way around based on
+     * `usePrefixForDefaultLocale` value
+     */
     reactRoutes.push(
         ...Object.entries(routeConfigs).map(([routeId, element]) =>
             createLocalizedRoute(
@@ -34,11 +40,17 @@ export function createAllReactRoutes<
         )
     );
 
+    /**
+     * Do not repeat the same routes as above for the defaultLocale if we have config.useLocaleInPath = false
+     */
     const forLocales =
         config.useLocaleInPath === false
             ? supportedLocales.filter((l) => l !== defaultLocale)
             : supportedLocales;
 
+    /**
+     * Add other locale routes so we can open them on first page load, example /einstellungen
+     */
     reactRoutes.push(
         ...forLocales.flatMap((locale) =>
             Object.entries(routeConfigs).map(([routeId, element]) =>
