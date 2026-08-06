@@ -1,6 +1,6 @@
 {
   "name": "@kristijorgji/react-localized-routing",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Locale-aware React Router path helpers, route factories, and sync hooks",
   "license": "MIT",
   "author": "kristijorgji",

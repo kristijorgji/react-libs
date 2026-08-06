@@ -65,7 +65,9 @@ describe('useSyncRouteWithLocale', () => {
     }) {
         const [lang, setLang] = useState(initialLocale);
 
+        // Override mocks to reflect dynamic language and navigate
         useEffect(() => {
+            // After initial render, simulate locale change
             setTimeout(() => {
                 mockLanguage = changeToLocale;
                 setLang(changeToLocale);

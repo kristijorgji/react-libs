@@ -8,8 +8,12 @@ import { searchParamsToRecord } from './queryUtils.js';
 import type { LocaleRouteMap, LocalizationConfig, LocalizedRouteMap } from './types.js';
 
 /**
- * Syncs the browser URL with default-locale prefix policy.
- * Use only once at the top level of your app (e.g. in AppRouter).
+ * Syncs the browser URL with the configured localization behavior regarding default locale prefixes.
+ * Assuming default locale is en
+ * - Redirects from `/en/...` to `/...` when `usePrefixForDefaultLocale` is false (i.e., cleaner URLs).
+ * - Redirects from `/...` to `/en/...` when `usePrefixForDefaultLocale` is true.
+ *
+ * Should be used only once at the top level of your app (e.g., in AppRouter).
  */
 export function useNormalizeDefaultLocalePath<
     Locale extends string,
@@ -41,6 +45,9 @@ export function useNormalizeDefaultLocalePath<
         const hasLocaleInPath =
             pathname.startsWith(`/${defaultLocale}/`) || pathname === `/${defaultLocale}`;
 
+        /**
+         * Do nothing if we cannot find a valid route
+         */
         let matchedRouteId: RouteId | undefined;
         let match: PathMatch | undefined;
         for (const [routeId, route] of Object.entries(defaultLocaleRoutes) as [
