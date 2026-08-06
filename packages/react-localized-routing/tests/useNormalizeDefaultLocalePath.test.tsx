@@ -91,6 +91,48 @@ it('adds default locale prefix when usePrefixForDefaultLocale is true', async ()
     });
 });
 
+it('should do nothing when the route cannot be found', async () => {
+    (useLocation as Mock).mockReturnValue({
+        ...dummyLocation,
+        pathname: '/non-existing-route',
+    } satisfies Location);
+
+    render(
+        <TestComponent
+            config={{
+                useLocaleInPath: true,
+                usePrefixForDefaultLocale: true,
+            }}
+            defaultLocale={mockLanguage}
+        />
+    );
+
+    await waitFor(() => {
+        expect(mockNavigateFn).not.toHaveBeenCalled();
+    });
+});
+
+it('adds default locale prefix when usePrefixForDefaultLocale is true and route has params, hash and query', async () => {
+    (useLocation as Mock).mockReturnValue({
+        ...dummyLocation,
+        pathname: '/demo/1',
+    } satisfies Location);
+
+    render(
+        <TestComponent
+            config={{
+                useLocaleInPath: true,
+                usePrefixForDefaultLocale: true,
+            }}
+            defaultLocale={mockLanguage}
+        />
+    );
+
+    await waitFor(() => {
+        expect(mockNavigateFn).toHaveBeenCalledWith('/en/demo/1?q=test#section', { replace: true });
+    });
+});
+
 it('removes default locale prefix when usePrefixForDefaultLocale is false', async () => {
     (useLocation as Mock).mockReturnValue({
         ...dummyLocation,
@@ -109,7 +151,7 @@ it('removes default locale prefix when usePrefixForDefaultLocale is false', asyn
     });
 });
 
-it('does nothing on subsequent renders after first normalize', () => {
+it('should do nothing if we had a previously set locale', () => {
     (useLocation as Mock).mockReturnValue({
         ...dummyLocation,
         pathname: '/en/settings',
