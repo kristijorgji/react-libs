@@ -54,6 +54,6 @@
     "react-i18next": "^17.1.11",
     "react-router-dom": "^7.18.5",
     "typescript": "^6.0.3",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   }
 }
